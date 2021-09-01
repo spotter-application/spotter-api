@@ -1,44 +1,34 @@
-export type SpotterActionId = string
+#!/usr/bin/env node
 
-export type SpotterAction = () => void
-
-export interface SpotterOption {
-  title: string,
-  subtitle: string,
-  image: string,
-  action: SpotterAction;
+declare var process : {
+  argv: Array<string>;
 }
 
-export interface SystemApplication {
-  title: string,
-  path: string,
-  icon: string,
-}
+const inputCommand = process.argv[2];
+const inputQuery = process.argv.splice(3).join(' ');
 
-export interface SystemApplicationDimensions {
-  appName: string,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-}
+export const Spotter = {
+  onQuery: (query: string) => {
 
-export abstract class SpotterPlugin {
+    return {
+      output: (callback: (query: string) => void) => {
+        if (inputCommand !== 'query' || !inputQuery || !query.toLowerCase().startsWith(inputQuery.toLowerCase())) {
+          return;
+        }
 
-  abstract query(query: string): SpotterOption[]
+        console.log(callback(query));
+      }
+    }
+  },
+  onAction: (actionName: string) => {
+    return {
+      run: (callback: () => void) => {
+        if (inputCommand !== 'action' || !inputQuery || !actionName.toLowerCase().startsWith(inputQuery.toLowerCase())) {
+          return;
+        }
 
-}
-
-export abstract class SpotterApi {
-
-  abstract shellCommand(command: string): void
-
-  abstract getAllApplications(): Promise<SystemApplication[]>
-
-  abstract openApplication(path: string): void
-
-  abstract setDimensions(appName: string, x: number, y: number, width: number, height: number): void
-
-  abstract getAllDimensions(): Promise<SystemApplicationDimensions[]>
-
-}
+        callback();
+      }
+    }
+  }
+};
