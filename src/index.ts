@@ -5,7 +5,7 @@ declare var process : {
 const inputCommand = process.argv[2];
 const inputQuery = process.argv.splice(3).join(' ');
 
-export default {
+export const Spotter = {
   onQuery: (query: string) => {
 
     return {
