@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 declare var process : {
   argv: Array<string>;
 }
@@ -7,7 +5,7 @@ declare var process : {
 const inputCommand = process.argv[2];
 const inputQuery = process.argv.splice(3).join(' ');
 
-export const Spotter = {
+export default {
   onQuery: (query: string) => {
 
     return {
@@ -16,6 +14,7 @@ export const Spotter = {
           return;
         }
 
+        // TODO: validate
         console.log(callback(query));
       }
     }
