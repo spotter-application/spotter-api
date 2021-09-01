@@ -2,10 +2,11 @@ declare var process : {
   argv: Array<string>;
 }
 
-interface Option {
-  id: string;
+export interface Option {
   title: string;
-  action: string;
+  subtitle?: string;
+  action?: string;
+  icon?: string;
 }
 
 const inputCommand = process.argv[2];
@@ -37,13 +38,22 @@ export const Spotter = {
 
   onAction: (actionName: string) => {
     return {
-      run: (callback: () => void) => {
+      run: (callback: () => void | Option[]) => {
         if (inputCommand !== 'action' || !inputQuery || !actionName.toLowerCase().startsWith(inputQuery.toLowerCase())) {
           return;
         }
 
-        callback();
+        const options = callback();
+
+        if (options) {
+          console.log(JSON.stringify(options));
+        }
       }
     }
+  },
+
+  parse: (value: string): Option[] => {
+    const options = JSON.parse(value);
+    return Array.isArray(options) ? options : [];
   }
 };
