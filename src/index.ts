@@ -9,8 +9,8 @@ export interface Option {
   icon?: string;
 }
 
-const inputCommand = process.argv[2];
-const inputQuery = process.argv.splice(3).join(' ');
+const inputCommand = process?.argv[2] ?? '';
+const inputQuery = process?.argv?.splice(3).join(' ') ?? '';
 
 export const Spotter = {
   output: (options: Option[]) => {
