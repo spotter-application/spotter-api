@@ -25,6 +25,7 @@ export enum OutputCommandType {
   setQuery = 'setQuery',
   setPluginInfo = 'setPluginInfo',
   setStorage = 'setStorage',
+  registerOptions = 'registerOptions',
 }
 
 export interface PluginInfo {
@@ -51,4 +52,7 @@ export type OutputCommand = {
 } | {
   type: OutputCommandType.setStorage;
   value: Storage;
+} | {
+  type: OutputCommandType.registerOptions;
+  value: Option[];
 }

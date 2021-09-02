@@ -41,3 +41,12 @@ export const setStorage = (value: Storage) => {
 
   console.log(JSON.stringify(command));
 }
+
+export const registerOptions = (value: Option[]) => {
+  const command: OutputCommand = {
+    type: OutputCommandType.registerOptions,
+    value,
+  };
+
+  console.log(JSON.stringify(command));
+}

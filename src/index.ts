@@ -7,6 +7,7 @@ import {
   setOptions,
   setQuery,
   setStorage,
+  registerOptions,
 } from "./set-methods";
 
 const input: string = process?.argv[2] ?? '';
@@ -17,6 +18,7 @@ const emptySetMethods = {
   setOptions: () => null,
   setQuery: () => null,
   setStorage: () => null,
+  registerOptions: () => null,
 }
 
 const setMethods = {
@@ -24,6 +26,7 @@ const setMethods = {
   setOptions,
   setQuery,
   setStorage,
+  registerOptions,
 }
 
 export const onInit = (callback: (command: InputCommand) => void) => {
