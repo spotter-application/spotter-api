@@ -1,6 +1,6 @@
 {
   "name": "@spotter-app/core",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/spotter-application/spotter-api#readme",
   "devDependencies": {
-    "@types/node": "^14.0.26",
+    "@types/node": "^14.17.14",
     "@types/react-native": "^0.63.2",
     "typescript": "^3.9.7"
   }

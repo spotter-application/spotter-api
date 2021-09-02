@@ -1,59 +1,73 @@
-declare var process : {
-  argv: Array<string>;
+import {
+  InputCommandType,
+  InputCommand,
+} from "./interfaces";
+import {
+  setPluginInfo,
+  setOptions,
+  setQuery,
+  setStorage,
+} from "./set-methods";
+
+const input: string = process?.argv[2] ?? '';
+const inputCommand: InputCommand = JSON.parse(input);
+
+const emptySetMethods = {
+  setPluginInfo: () => null,
+  setOptions: () => null,
+  setQuery: () => null,
+  setStorage: () => null,
 }
 
-export interface Option {
-  title: string;
-  subtitle?: string;
-  action?: string;
-  icon?: string;
+const setMethods = {
+  setPluginInfo,
+  setOptions,
+  setQuery,
+  setStorage,
 }
 
-const inputCommand = process?.argv[2] ?? '';
-const inputQuery = process?.argv?.splice(3).join(' ') ?? '';
+export const onInit = (callback: (command: InputCommand) => void) => {
+  if (inputCommand.type !== InputCommandType.onInit) {
+    return;
+  }
 
-export const Spotter = {
-  output: (options: Option[]) => {
-    if (inputCommand !== 'query' || !inputQuery) {
-      return;
-    }
+  callback(inputCommand);
+}
 
-    console.log(
-      JSON.stringify(options.filter(option => option.title.toLowerCase().startsWith(inputQuery.toLowerCase())))
-    );
-  },
+export const onQuery = (callback: (command: InputCommand) => void) => {
+  if (inputCommand.type !== InputCommandType.onQuery || !inputCommand.query) {
+    return;
+  }
 
-  onQuery: (query: string) => {
-    return {
-      output: (callback: (query: string) => Option[]) => {
-        if (inputCommand !== 'query' || !inputQuery || !query.toLowerCase().startsWith(inputQuery.toLowerCase())) {
-          return;
-        }
+  callback(inputCommand);
+};
 
-        // TODO: validate
-        console.log(JSON.stringify(callback(query)));
+export const forQuery = (query: string) => {
+  if (
+    inputCommand.type !== InputCommandType.onQuery ||
+    !inputCommand.query ||
+    !query.toLowerCase().startsWith(inputCommand.query.toLowerCase())
+  ) {
+    return emptySetMethods;
+  }
+
+  return setMethods;
+};
+
+export const forAction = (actionName: string) => {
+  return {
+    run: (callback: () => void) => {
+      if (
+        inputCommand.type !== InputCommandType.onAction ||
+        !inputCommand.query ||
+        !actionName.toLowerCase().startsWith(inputCommand.query.toLowerCase())
+      ) {
+        return;
       }
+
+      callback();
     }
-  },
-
-  onAction: (actionName: string) => {
-    return {
-      run: (callback: () => void | Option[]) => {
-        if (inputCommand !== 'action' || !inputQuery || !actionName.toLowerCase().startsWith(inputQuery.toLowerCase())) {
-          return;
-        }
-
-        const options = callback();
-
-        if (options) {
-          console.log(JSON.stringify(options));
-        }
-      }
-    }
-  },
-
-  parse: (value: string): Option[] => {
-    const options = JSON.parse(value);
-    return Array.isArray(options) ? options : [];
   }
 };
+
+export * from './set-methods';
