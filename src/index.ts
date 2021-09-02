@@ -71,3 +71,4 @@ export const forAction = (actionName: string) => {
 };
 
 export * from './set-methods';
+export * from './interfaces'
