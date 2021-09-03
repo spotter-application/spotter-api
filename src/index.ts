@@ -29,20 +29,20 @@ const setMethods = {
   registerOptions,
 }
 
-export const onInit = (callback: (command: InputCommand) => void) => {
+export const onInit = async (callback: (command: InputCommand) => Promise<void>) => {
   if (inputCommand.type !== InputCommandType.onInit) {
     return;
   }
 
-  callback(inputCommand);
+  await callback(inputCommand);
 }
 
-export const onQuery = (callback: (command: InputCommand) => void) => {
+export const onQuery = async (callback: (command: InputCommand) => Promise<void>) => {
   if (inputCommand.type !== InputCommandType.onQuery || !inputCommand.query) {
     return;
   }
 
-  callback(inputCommand);
+  await callback(inputCommand);
 };
 
 export const forQuery = (query: string) => {
