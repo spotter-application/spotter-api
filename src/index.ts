@@ -1,6 +1,7 @@
 import {
   InputCommandType,
   InputCommand,
+  Option,
 } from "./interfaces";
 import {
   setPluginInfo,
@@ -37,12 +38,13 @@ export const onInit = async (callback: (command: InputCommand) => Promise<void>)
   await callback(inputCommand);
 }
 
-export const onQuery = async (callback: (command: InputCommand) => Promise<void>) => {
+export const onQuery = async (callback: (command: InputCommand) => Promise<Option[]>) => {
   if (inputCommand.type !== InputCommandType.onQuery || !inputCommand.query) {
     return;
   }
 
-  await callback(inputCommand);
+  const options = await callback(inputCommand) ?? [];
+  setOptions(options);
 };
 
 export const forQuery = (query: string) => {
