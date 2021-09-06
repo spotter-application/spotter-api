@@ -59,18 +59,18 @@ export const forQuery = (query: string) => {
   return setMethods;
 };
 
-export const forAction = (actionName: string) => {
+export const onAction = (actionName: string) => {
   return {
-    run: (callback: () => void) => {
+    run: (callback: (...args: any[]) => void) => {
       if (
         inputCommand.type !== InputCommandType.onAction ||
-        !inputCommand.query ||
-        !actionName.toLowerCase().startsWith(inputCommand.query.toLowerCase())
+        !inputCommand.action ||
+        !actionName.toLowerCase().startsWith(inputCommand.action.toLowerCase())
       ) {
         return;
       }
 
-      callback();
+      callback(...inputCommand?.arguments);
     }
   }
 };

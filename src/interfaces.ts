@@ -10,6 +10,7 @@ export interface Option {
   title: string;
   subtitle?: string;
   action?: string;
+  arguments?: any[];
   icon?: string;
 }
 
@@ -35,9 +36,20 @@ export interface PluginInfo {
 }
 
 export type InputCommand = {
-  type: InputCommandType,
+  type: InputCommandType.onAction;
+  action: string;
+  arguments: any[];
   storage: Storage,
-  query: string,
+} | {
+  type: InputCommandType.onInit;
+  storage: Storage,
+} | {
+  type: InputCommandType.onOpen;
+  storage: Storage,
+} | {
+  type: InputCommandType.onQuery;
+  query: string;
+  storage: Storage,
 }
 
 export type OutputCommand = {
