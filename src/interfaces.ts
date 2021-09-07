@@ -6,19 +6,24 @@ export interface Storage {
   [key: string]: any;
 }
 
+export type Action = string | {
+  name: string,
+  arguments: any[],
+}
+
 export interface Option {
   title: string;
   subtitle?: string;
-  action?: string;
-  arguments?: any[];
+  action?: Action,
+  queryAction?: Action;
   icon?: string;
 }
 
 export enum InputCommandType {
   onInit = 'onInit',
   onOpen = 'onOpen',
-  onQuery = 'onQuery',
   onAction = 'onAction',
+  onQueryAction = 'onQueryAction',
 }
 
 export enum OutputCommandType {
@@ -37,8 +42,11 @@ export interface PluginInfo {
 
 export type InputCommand = {
   type: InputCommandType.onAction;
-  action: string;
-  arguments: any[];
+  action: string | {
+    name: string,
+    arguments: any[],
+  },
+  query: string;
   storage: Storage,
 } | {
   type: InputCommandType.onInit;
@@ -47,7 +55,11 @@ export type InputCommand = {
   type: InputCommandType.onOpen;
   storage: Storage,
 } | {
-  type: InputCommandType.onQuery;
+  type: InputCommandType.onQueryAction;
+  action: string | {
+    name: string,
+    arguments: any[],
+  },
   query: string;
   storage: Storage,
 }
