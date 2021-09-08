@@ -2,7 +2,6 @@ import {
   InputCommandType,
   InputCommand,
 } from "./interfaces";
-import process from "process";
 
 let inputCommand: InputCommand | null;
 
