@@ -6,7 +6,7 @@ import {
 const input: string = process?.argv[2] ?? '';
 const inputCommand: InputCommand = JSON.parse(input);
 
-export const onInit = async (callback: (command: InputCommand) => Promise<void>) => {
+export const onInit = async (callback: (command: InputCommand) => Promise<void> | void) => {
   if (inputCommand.type !== InputCommandType.onInit) {
     return;
   }
