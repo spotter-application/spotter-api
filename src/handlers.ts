@@ -17,6 +17,10 @@ if (process && process.argv) {
 export const onInit = async (
   callback: (command: InputCommand) => Promise<void> | void,
 ) => {
+  if (!callback) {
+    return;
+  }
+
   if (inputCommand?.type !== InputCommandType.onInit) {
     return;
   }
@@ -26,52 +30,54 @@ export const onInit = async (
 
 export const onAction = (
   action: string,
+  callback: (...args: any[]) => void,
 ) => {
-  return {
-    run: (callback: (...args: any[]) => void) => {
-      if (inputCommand?.type !== InputCommandType.onAction || !inputCommand.action) {
-        return;
-      }
-
-      const actionTitle = typeof inputCommand.action === 'string'
-        ? inputCommand.action
-        : inputCommand.action.name;
-
-      if (!action.toLowerCase().startsWith(actionTitle.toLowerCase())) {
-        return;
-      }
-
-      const args = typeof inputCommand.action === 'string'
-        ? [inputCommand.query]
-        : inputCommand.action.arguments;
-
-      callback(...args);
-    }
+  if (!callback) {
+    return;
   }
+
+  if (inputCommand?.type !== InputCommandType.onAction || !inputCommand.action) {
+    return;
+  }
+
+  const actionTitle = typeof inputCommand.action === 'string'
+    ? inputCommand.action
+    : inputCommand.action.name;
+
+  if (action.toLowerCase() !== actionTitle.toLowerCase()) {
+    return;
+  }
+
+  const args = typeof inputCommand.action === 'string'
+    ? [inputCommand.query]
+    : inputCommand.action.arguments;
+
+  callback(...args);
 };
 
 export const onQueryAction = (
   action: string,
+  callback: (...args: any[]) => void,
 ) => {
-  return {
-    run: (callback: (...args: any[]) => void) => {
-      if (inputCommand?.type !== InputCommandType.onQueryAction || !inputCommand.action) {
-        return;
-      }
-
-      const actionTitle = typeof inputCommand.action === 'string'
-        ? inputCommand.action
-        : inputCommand.action.name;
-
-      if (!action.toLowerCase().startsWith(actionTitle.toLowerCase())) {
-        return;
-      }
-
-      const args = typeof inputCommand.action === 'string'
-        ? [inputCommand.query]
-        : inputCommand.action.arguments;
-
-      callback(...args);
-    }
+  if (!callback) {
+    return;
   }
+
+  if (inputCommand?.type !== InputCommandType.onQueryAction || !inputCommand.action) {
+    return;
+  }
+
+  const actionTitle = typeof inputCommand.action === 'string'
+    ? inputCommand.action
+    : inputCommand.action.name;
+
+  if (action.toLowerCase() !== actionTitle.toLowerCase()) {
+    return;
+  }
+
+  const args = typeof inputCommand.action === 'string'
+    ? [inputCommand.query]
+    : inputCommand.action.arguments;
+
+  callback(...args);
 };
