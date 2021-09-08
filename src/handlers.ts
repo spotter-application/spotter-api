@@ -10,7 +10,10 @@ if (process && process.argv) {
   inputCommand = input ? JSON.parse(input) : null;
 }
 
-export const onInit = async (callback: (command: InputCommand) => Promise<void> | void) => {
+export const onInit = async (
+  callback: (command: InputCommand) => Promise<void> | void,
+  inputCommand?: InputCommand,
+) => {
   if (inputCommand?.type !== InputCommandType.onInit) {
     return;
   }
@@ -18,7 +21,10 @@ export const onInit = async (callback: (command: InputCommand) => Promise<void> 
   await callback(inputCommand);
 }
 
-export const onAction = (action: string) => {
+export const onAction = (
+  action: string,
+  inputCommand?: InputCommand,
+) => {
   return {
     run: (callback: (...args: any[]) => void) => {
       if (inputCommand?.type !== InputCommandType.onAction || !inputCommand.action) {
@@ -42,7 +48,10 @@ export const onAction = (action: string) => {
   }
 };
 
-export const onQueryAction = (action: string) => {
+export const onQueryAction = (
+  action: string,
+  inputCommand?: InputCommand,
+) => {
   return {
     run: (callback: (...args: any[]) => void) => {
       if (inputCommand?.type !== InputCommandType.onQueryAction || !inputCommand.action) {
