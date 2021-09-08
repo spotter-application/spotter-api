@@ -2,8 +2,9 @@ import {
   InputCommandType,
   InputCommand,
 } from "./interfaces";
+import process from "process";
 
-const input: string | null = process && process.argv?.length ? process.argv[2] : null;
+const input: string | null = process?.argv[2] ? process.argv[2] : null;
 const inputCommand: InputCommand | null = input ? JSON.parse(input) : null;
 
 export const onInit = async (callback: (command: InputCommand) => Promise<void> | void) => {
