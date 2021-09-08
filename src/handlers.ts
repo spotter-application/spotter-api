@@ -3,11 +3,11 @@ import {
   InputCommand,
 } from "./interfaces";
 
-const input: string = process?.argv[2] ?? '';
-const inputCommand: InputCommand = JSON.parse(input);
+const input: string | null = process && process.argv?.length ? process.argv[2] : null;
+const inputCommand: InputCommand | null = input ? JSON.parse(input) : null;
 
 export const onInit = async (callback: (command: InputCommand) => Promise<void> | void) => {
-  if (inputCommand.type !== InputCommandType.onInit) {
+  if (inputCommand?.type !== InputCommandType.onInit) {
     return;
   }
 
@@ -17,7 +17,7 @@ export const onInit = async (callback: (command: InputCommand) => Promise<void> 
 export const onAction = (action: string) => {
   return {
     run: (callback: (...args: any[]) => void) => {
-      if (inputCommand.type !== InputCommandType.onAction || !inputCommand.action) {
+      if (inputCommand?.type !== InputCommandType.onAction || !inputCommand.action) {
         return;
       }
 
@@ -41,7 +41,7 @@ export const onAction = (action: string) => {
 export const onQueryAction = (action: string) => {
   return {
     run: (callback: (...args: any[]) => void) => {
-      if (inputCommand.type !== InputCommandType.onQueryAction || !inputCommand.action) {
+      if (inputCommand?.type !== InputCommandType.onQueryAction || !inputCommand.action) {
         return;
       }
 
