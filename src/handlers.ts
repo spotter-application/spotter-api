@@ -5,7 +5,7 @@ import {
 
 let inputCommand: InputCommand | null;
 
-if (process) {
+if (process && process.argv) {
   const input: string | null = process?.argv[2] ? process.argv[2] : null;
   inputCommand = input ? JSON.parse(input) : null;
 }
