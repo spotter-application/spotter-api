@@ -6,13 +6,16 @@ import {
 let inputCommand: InputCommand | null;
 
 if (process && process.argv) {
-  const input: string | null = process?.argv[2] ? process.argv[2] : null;
-  inputCommand = input ? JSON.parse(input) : null;
+  try {
+    const input: string | null = process?.argv[2] ? process.argv[2] : null;
+    inputCommand = input ? JSON.parse(input) : null;
+  } catch {
+    console.log('Invalid command has been passed!');
+  }
 }
 
 export const onInit = async (
   callback: (command: InputCommand) => Promise<void> | void,
-  inputCommand?: InputCommand,
 ) => {
   if (inputCommand?.type !== InputCommandType.onInit) {
     return;
@@ -23,7 +26,6 @@ export const onInit = async (
 
 export const onAction = (
   action: string,
-  inputCommand?: InputCommand,
 ) => {
   return {
     run: (callback: (...args: any[]) => void) => {
@@ -50,7 +52,6 @@ export const onAction = (
 
 export const onQueryAction = (
   action: string,
-  inputCommand?: InputCommand,
 ) => {
   return {
     run: (callback: (...args: any[]) => void) => {
