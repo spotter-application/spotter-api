@@ -56,7 +56,7 @@ onAction('haveAGoAction', () => {
 
 ## API
 
-#### `onInit(() => void)`
+### onInit(() => void)
 
 Runs when Spotter is first opened.
 
@@ -68,13 +68,13 @@ Runs when Spotter is first opened.
 
 
 
-#### registerOptions(Option[])
+### registerOptions(Option[])
 
 Registers options in Spotter database
 
 
 
-#### Option
+### Option
 
 Displays in Spotter results
 
@@ -95,7 +95,7 @@ interface Option {
 
 
 
-#### onAction(actionName: string, (...args: any[] | query: string) => void)
+### onAction(actionName: string, (...args: any[] | query: string) => void)
 
 Runns when option with `action` selected and <enter> pressed
 
@@ -136,7 +136,7 @@ onAction('haveAGoAction', (myArgument) => {
 
 
 
-#### onQueryAction (actionName: string, (...args: any[] | query: string) => void)
+### onQueryAction (actionName: string, (...args: any[] | query: string) => void)
 
 Runns when option with `onQueryAction` selcted and  <tab> pressed (uses to "open" child option menu)
 
