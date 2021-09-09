@@ -27,7 +27,7 @@ mkdir spotter-example-plugin && cd $_ && touch index.js
 npm init && npm i --save @spotter-app/core
 ```
 
-- Add `"bind": "index.js"` and `"type": "module"` to package.json
+- Add `"bin": "index.js"` and `"type": "module"` to package.json
 - Add `@spotter-app/core'` imports to `index.js`  and do your thing (see example bellow).
 - Publish package to npm `npm publish`
 - Install plugin in Spotter: `plugins <tab> spotter-example-plugin <enter>`
