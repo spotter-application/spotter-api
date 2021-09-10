@@ -63,21 +63,25 @@ export const onQueryAction = (
     return;
   }
 
-  if (inputCommand?.type !== InputCommandType.onQueryAction || !inputCommand.action) {
+  if (inputCommand?.type !== InputCommandType.onQueryAction || !inputCommand.queryAction) {
     return;
   }
 
-  const actionTitle = typeof inputCommand.action === 'string'
-    ? inputCommand.action
-    : inputCommand.action.name;
+  const actionTitle = typeof inputCommand.queryAction === 'string'
+    ? inputCommand.queryAction
+    : inputCommand.queryAction.name;
 
   if (action.toLowerCase() !== actionTitle.toLowerCase()) {
     return;
   }
 
-  const args = typeof inputCommand.action === 'string'
+  const args = typeof inputCommand.queryAction === 'string'
     ? [inputCommand.query]
-    : inputCommand.action.arguments;
+    : inputCommand.queryAction.arguments.map(
+      arg => arg === QUERY && inputCommand?.type === InputCommandType.onQueryAction ? inputCommand.query : arg
+    );
 
   callback(...args);
 };
+
+export const QUERY = '$query';

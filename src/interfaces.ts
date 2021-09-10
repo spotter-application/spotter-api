@@ -57,7 +57,7 @@ export type InputCommand = {
   storage: Storage,
 } | {
   type: InputCommandType.onQueryAction;
-  action: string | {
+  queryAction: string | {
     name: string,
     arguments: any[],
   },
