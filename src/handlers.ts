@@ -1,6 +1,8 @@
+import { Storage } from ".";
 import {
   InputCommandType,
   InputCommand,
+  Action,
 } from "./interfaces";
 
 let inputCommand: InputCommand | null;
@@ -48,9 +50,11 @@ export const onAction = (
     return;
   }
 
-  const args = typeof inputCommand.action === 'string'
-    ? [inputCommand.query]
-    : inputCommand.action.arguments;
+  const args = getActionArgs(
+    inputCommand.action,
+    inputCommand.query,
+    inputCommand.storage
+  );
 
   callback(...args);
 };
@@ -75,13 +79,34 @@ export const onQueryAction = (
     return;
   }
 
-  const args = typeof inputCommand.queryAction === 'string'
-    ? [inputCommand.query]
-    : inputCommand.queryAction.arguments.map(
-      arg => arg === QUERY && inputCommand?.type === InputCommandType.onQueryAction ? inputCommand.query : arg
-    );
+  const args = getActionArgs(
+    inputCommand.queryAction,
+    inputCommand.query,
+    inputCommand.storage
+  );
 
   callback(...args);
 };
 
+const getActionArgs = (action: Action, query: string, storage: Storage): any[] => {
+  if (typeof action === 'string') {
+    return [];
+  }
+  return action.arguments.map(
+    arg => {
+      if (arg === QUERY) {
+        return query;
+      }
+
+      if (arg === STORAGE) {
+        return storage;
+      }
+
+      return arg;
+    }
+  );
+};
+
 export const QUERY = '$query';
+
+export const STORAGE = '$storage';
