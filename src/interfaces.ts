@@ -16,7 +16,7 @@ export interface Option {
   subtitle?: string;
   action?: Action,
   queryAction?: Action;
-  icon?: string;
+  icon?: string | { uri: string };
   forceReplaceOption?: string;
 }
 
