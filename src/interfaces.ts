@@ -17,6 +17,7 @@ export interface Option {
   action?: Action,
   queryAction?: Action;
   icon?: string;
+  forceReplaceOption?: string;
 }
 
 export enum InputCommandType {
