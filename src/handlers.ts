@@ -1,9 +1,6 @@
-import { Storage } from ".";
-import {
-  InputCommandType,
-  InputCommand,
-  Action,
-} from "./interfaces";
+import { getActionArgs } from "./helpers";
+import { InputCommand, InputCommandType, Option } from "./interfaces";
+import { registerPrefix, setOptions } from "./set-methods";
 
 let inputCommand: InputCommand | null;
 
@@ -17,7 +14,7 @@ if (process && process.argv) {
 }
 
 export const onInit = async (
-  callback: (command: InputCommand) => Promise<void> | void,
+  callback: (command: InputCommand) => Promise<void | Option[]> | void | Option[],
 ) => {
   if (!callback) {
     return;
@@ -27,7 +24,10 @@ export const onInit = async (
     return;
   }
 
-  await callback(inputCommand);
+  const options = await callback(inputCommand);
+  if (options) {
+    setOptions(options);
+  }
 }
 
 export const onAction = (
@@ -88,25 +88,38 @@ export const onQueryAction = (
   callback(...args);
 };
 
-const getActionArgs = (action: Action, query: string, storage: Storage): any[] => {
-  if (typeof action === 'string') {
-    return [];
+export const onPrefix = async (
+  prefix: string | string[],
+  callback: (command: InputCommand) => Promise<void | Option[]> | void | Option[],
+) => {
+  if (!callback) {
+    return;
   }
-  return action.arguments.map(
-    arg => {
-      if (arg === QUERY) {
-        return query;
-      }
 
-      if (arg === STORAGE) {
-        return storage;
-      }
+  if (inputCommand?.type === InputCommandType.checkForOnPrefixMethods) {
+    registerPrefix(prefix);
+    return;
+  }
 
-      return arg;
-    }
-  );
+  if (inputCommand?.type !== InputCommandType.onPrefix) {
+    return;
+  }
+
+  const matches: string | undefined = typeof prefix === 'string'
+    ? (prefix.startsWith(inputCommand.query) ? prefix : '')
+    : prefix.find(p =>
+      inputCommand?.type === InputCommandType.onPrefix && p.startsWith(inputCommand.query)
+    );
+
+  if (!matches?.length) {
+    return;
+  }
+
+  const options = await callback({
+    ...inputCommand,
+    query: inputCommand.query.replace(matches, ''),
+  });
+  if (options) {
+    setOptions(options);
+  }
 };
-
-export const QUERY = '$query';
-
-export const STORAGE = '$storage';

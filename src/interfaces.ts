@@ -22,9 +22,10 @@ export interface Option {
 
 export enum InputCommandType {
   onInit = 'onInit',
-  onOpen = 'onOpen',
+  onPrefix = 'onPrefix',
   onAction = 'onAction',
   onQueryAction = 'onQueryAction',
+  checkForOnPrefixMethods = 'checkForOnPrefixMethods',
 }
 
 export enum OutputCommandType {
@@ -33,6 +34,7 @@ export enum OutputCommandType {
   setPluginInfo = 'setPluginInfo',
   setStorage = 'setStorage',
   registerOptions = 'registerOptions',
+  registerOnPrefix = 'registerOnPrefix',
 }
 
 export interface PluginInfo {
@@ -53,9 +55,6 @@ export type InputCommand = {
   type: InputCommandType.onInit;
   storage: Storage,
 } | {
-  type: InputCommandType.onOpen;
-  storage: Storage,
-} | {
   type: InputCommandType.onQueryAction;
   queryAction: string | {
     name: string,
@@ -63,6 +62,12 @@ export type InputCommand = {
   },
   query: string;
   storage: Storage,
+} | {
+  type: InputCommandType.onPrefix;
+  query: string;
+  storage: Storage,
+} | {
+  type: InputCommandType.checkForOnPrefixMethods;
 }
 
 export type OutputCommand = {
@@ -80,4 +85,7 @@ export type OutputCommand = {
 } | {
   type: OutputCommandType.registerOptions;
   value: Option[];
+} | {
+  type: OutputCommandType.registerOnPrefix;
+  value: string | string[];
 }

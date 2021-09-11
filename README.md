@@ -56,7 +56,7 @@ onAction('haveAGoAction', () => {
 
 ## API
 
-### onInit(() => void)
+### onInit((command: InputCommand) => Option[] | Promise<Option[]> | void)
 
 Runs when Spotter is first opened.
 
@@ -65,6 +65,12 @@ Runs when Spotter is first opened.
   	//
   });
   ```
+
+
+
+### onPrefix(prefix: string | string[], callback(command: InputCommand) => Option[] | Promise<Option[]>)
+
+Runs when Spotter query starts with prefix. Callback should return options to render.
 
 
 
@@ -97,7 +103,7 @@ interface Option {
 
 ### onAction(actionName: string, (...args: any[] | query: string) => void)
 
-Runns when option with `action` selected and <enter> pressed
+Runs when option with `action` selected and <enter> pressed
 
 
 
@@ -138,7 +144,7 @@ onAction('haveAGoAction', (myArgument) => {
 
 ### onQueryAction (actionName: string, (...args: any[] | query: string) => void)
 
-Runns when option with `onQueryAction` selcted and  <tab> pressed (uses to "open" child option menu)
+Runs when option with `onQueryAction` selected and  <tab> pressed (uses to "open" child option menu)
 
 
 

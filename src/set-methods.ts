@@ -13,7 +13,7 @@ export const setPluginInfo = (value: PluginInfo) => {
   };
 
   console.log(JSON.stringify(command));
-}
+};
 
 export const setOptions = (value: Option[]): OutputCommand => {
   const command: OutputCommand = {
@@ -24,7 +24,7 @@ export const setOptions = (value: Option[]): OutputCommand => {
   console.log(JSON.stringify(command));
 
   return command;
-}
+};
 
 export const setQuery = (value: string): OutputCommand => {
   const command: OutputCommand = {
@@ -35,7 +35,7 @@ export const setQuery = (value: string): OutputCommand => {
   console.log(JSON.stringify(command));
 
   return command;
-}
+};
 
 export const setStorage = (value: Storage): OutputCommand => {
   const command: OutputCommand = {
@@ -46,7 +46,7 @@ export const setStorage = (value: Storage): OutputCommand => {
   console.log(JSON.stringify(command));
 
   return command;
-}
+};
 
 export const registerOptions = (value: Option[]): OutputCommand => {
   const command: OutputCommand = {
@@ -57,4 +57,15 @@ export const registerOptions = (value: Option[]): OutputCommand => {
   console.log(JSON.stringify(command));
 
   return command;
-}
+};
+
+export const registerPrefix = (value: string | string[]): OutputCommand => {
+  const command: OutputCommand = {
+    type: OutputCommandType.registerOnPrefix,
+    value,
+  };
+
+  console.log(JSON.stringify(command));
+
+  return command;
+};
