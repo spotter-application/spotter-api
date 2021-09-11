@@ -1,5 +1,5 @@
 import { QUERY, STORAGE } from "./constants";
-import { Action, Storage } from "./interfaces";
+import { Action, OutputCommand, Storage } from "./interfaces";
 
 export const getActionArgs = (action: Action, query: string, storage: Storage): any[] => {
   if (typeof action === 'string') {
@@ -18,4 +18,8 @@ export const getActionArgs = (action: Action, query: string, storage: Storage): 
       return arg;
     }
   );
+};
+
+export const print = (command: OutputCommand) => {
+  console.log(JSON.stringify(command));
 };

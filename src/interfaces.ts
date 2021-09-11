@@ -1,7 +1,3 @@
-declare var process : {
-  argv: Array<string>;
-}
-
 export interface Storage {
   [key: string]: any;
 }
@@ -21,11 +17,11 @@ export interface Option {
 }
 
 export enum InputCommandType {
-  onInit = 'onInit',
+  checkForOptionsToRegister = 'checkForOptionsToRegister',
+  checkForOnPrefixMethods = 'checkForOnPrefixMethods',
   onPrefix = 'onPrefix',
   onAction = 'onAction',
   onQueryAction = 'onQueryAction',
-  checkForOnPrefixMethods = 'checkForOnPrefixMethods',
 }
 
 export enum OutputCommandType {
@@ -44,15 +40,16 @@ export interface PluginInfo {
 }
 
 export type InputCommand = {
+  type: InputCommandType.checkForOptionsToRegister;
+} | {
+  type: InputCommandType.checkForOnPrefixMethods;
+} | {
   type: InputCommandType.onAction;
   action: string | {
     name: string,
     arguments: any[],
   },
   query: string;
-  storage: Storage,
-} | {
-  type: InputCommandType.onInit;
   storage: Storage,
 } | {
   type: InputCommandType.onQueryAction;
@@ -67,8 +64,6 @@ export type InputCommand = {
   prefix: string,
   query: string;
   storage: Storage,
-} | {
-  type: InputCommandType.checkForOnPrefixMethods;
 }
 
 export type OutputCommand = {

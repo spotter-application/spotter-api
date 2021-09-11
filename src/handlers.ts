@@ -1,6 +1,5 @@
-import { getActionArgs } from "./helpers";
-import { InputCommand, InputCommandType, Option } from "./interfaces";
-import { registerPrefix, setOptions } from "./set-methods";
+import { getActionArgs, print } from "./helpers";
+import { InputCommand, InputCommandType, Option, OutputCommand, OutputCommandType } from "./interfaces";
 
 let inputCommand: InputCommand | null;
 
@@ -13,22 +12,24 @@ if (process && process.argv) {
   }
 }
 
-export const onInit = async (
-  callback: (command: InputCommand) => Promise<void | Option[]> | void | Option[],
+export const registerOptions = async (
+  options: Option[],
 ) => {
-  if (!callback) {
+  if (!options?.length) {
     return;
   }
 
-  if (inputCommand?.type !== InputCommandType.onInit) {
+  if (inputCommand?.type !== InputCommandType.checkForOptionsToRegister) {
     return;
   }
 
-  const options = await callback(inputCommand);
-  if (options) {
-    setOptions(options);
-  }
-}
+  const command: OutputCommand = {
+    type: OutputCommandType.registerOptions,
+    value: options,
+  };
+
+  print(command);
+};
 
 export const onAction = (
   action: string,
@@ -59,9 +60,9 @@ export const onAction = (
   callback(...args);
 };
 
-export const onQueryAction = (
+export const onQueryAction = async (
   action: string,
-  callback: (...args: any[]) => void,
+  callback: (...args: any[]) => Promise<Option[]> | Option[],
 ) => {
   if (!callback) {
     return;
@@ -85,19 +86,35 @@ export const onQueryAction = (
     inputCommand.storage
   );
 
-  callback(...args);
+  const options: Option[] = await callback(...args);
+
+  if (!options?.length) {
+    return;
+  }
+
+  const command: OutputCommand = {
+    type: OutputCommandType.setOptions,
+    value: options,
+  };
+
+  print(command);
 };
 
 export const onPrefix = async (
   prefix: string | string[],
-  callback: (command: InputCommand) => Promise<void | Option[]> | void | Option[],
+  callback: (command: InputCommand) => Promise<Option[]> | Option[],
 ) => {
   if (!callback) {
     return;
   }
 
   if (inputCommand?.type === InputCommandType.checkForOnPrefixMethods) {
-    registerPrefix(prefix);
+    const command: OutputCommand = {
+      type: OutputCommandType.registerOnPrefix,
+      value: prefix,
+    };
+
+    print(command);
     return;
   }
 
@@ -115,12 +132,20 @@ export const onPrefix = async (
     return;
   }
 
-  const options = await callback({
+  const options: Option[] = await callback({
     ...inputCommand,
     prefix: matches,
     query: inputCommand.query.replace(matches, ''),
   });
-  if (options) {
-    setOptions(options);
+
+  if (!options?.length) {
+    return;
   }
+
+  const command: OutputCommand = {
+    type: OutputCommandType.setOptions,
+    value: options,
+  };
+
+  print(command);
 };

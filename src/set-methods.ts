@@ -1,6 +1,6 @@
+import { print } from "./helpers";
 import {
   OutputCommand,
-  Option,
   OutputCommandType,
   PluginInfo,
   Storage,
@@ -12,18 +12,7 @@ export const setPluginInfo = (value: PluginInfo) => {
     value,
   };
 
-  console.log(JSON.stringify(command));
-};
-
-export const setOptions = (value: Option[]): OutputCommand => {
-  const command: OutputCommand = {
-    type: OutputCommandType.setOptions,
-    value,
-  };
-
-  console.log(JSON.stringify(command));
-
-  return command;
+  print(command);
 };
 
 export const setQuery = (value: string): OutputCommand => {
@@ -32,7 +21,7 @@ export const setQuery = (value: string): OutputCommand => {
     value,
   };
 
-  console.log(JSON.stringify(command));
+  print(command);
 
   return command;
 };
@@ -43,29 +32,7 @@ export const setStorage = (value: Storage): OutputCommand => {
     value,
   };
 
-  console.log(JSON.stringify(command));
-
-  return command;
-};
-
-export const registerOptions = (value: Option[]): OutputCommand => {
-  const command: OutputCommand = {
-    type: OutputCommandType.registerOptions,
-    value,
-  };
-
-  console.log(JSON.stringify(command));
-
-  return command;
-};
-
-export const registerPrefix = (value: string | string[]): OutputCommand => {
-  const command: OutputCommand = {
-    type: OutputCommandType.registerOnPrefix,
-    value,
-  };
-
-  console.log(JSON.stringify(command));
+  print(command);
 
   return command;
 };
