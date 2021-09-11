@@ -117,6 +117,7 @@ export const onPrefix = async (
 
   const options = await callback({
     ...inputCommand,
+    prefix: matches,
     query: inputCommand.query.replace(matches, ''),
   });
   if (options) {

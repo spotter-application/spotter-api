@@ -64,6 +64,7 @@ export type InputCommand = {
   storage: Storage,
 } | {
   type: InputCommandType.onPrefix;
+  prefix: string,
   query: string;
   storage: Storage,
 } | {
