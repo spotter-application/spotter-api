@@ -19,6 +19,7 @@ export interface Option {
 export enum InputCommandType {
   checkForOptionsToRegister = 'checkForOptionsToRegister',
   checkForOnPrefixMethods = 'checkForOnPrefixMethods',
+  onInit = 'onInit',
   onPrefix = 'onPrefix',
   onAction = 'onAction',
   onQueryAction = 'onQueryAction',
@@ -43,6 +44,9 @@ export type InputCommand = {
   type: InputCommandType.checkForOptionsToRegister;
 } | {
   type: InputCommandType.checkForOnPrefixMethods;
+} | {
+  type: InputCommandType.onInit;
+  storage: Storage,
 } | {
   type: InputCommandType.onAction;
   action: string | {

@@ -12,6 +12,18 @@ if (process && process.argv) {
   }
 }
 
+export const onInit = async (callback: () => void) => {
+  if (!callback) {
+    return;
+  }
+
+  if (inputCommand?.type !== InputCommandType.onInit) {
+    return;
+  }
+
+  callback();
+};
+
 export const registerOptions = async (
   options: Option[],
 ) => {
@@ -19,7 +31,10 @@ export const registerOptions = async (
     return;
   }
 
-  if (inputCommand?.type !== InputCommandType.checkForOptionsToRegister) {
+  if (
+    inputCommand?.type !== InputCommandType.checkForOptionsToRegister &&
+    inputCommand?.type !== InputCommandType.onInit
+  ) {
     return;
   }
 
