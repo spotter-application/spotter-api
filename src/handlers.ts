@@ -117,7 +117,7 @@ export const onQueryAction = async (
 
 export const onPrefix = async (
   prefix: string | string[],
-  callback: (command: InputCommand) => Promise<Option[]> | Option[],
+  callback: (command: InputCommand & { type: InputCommandType.onPrefix }) => Promise<Option[]> | Option[],
 ) => {
   if (!callback || !prefix?.length) {
     return;
