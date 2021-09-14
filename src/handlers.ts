@@ -125,7 +125,7 @@ export const onPrefix = async (
 
   if (inputCommand?.type === InputCommandType.checkForOnPrefixMethods) {
     const command: OutputCommand = {
-      type: OutputCommandType.registerOnPrefix,
+      type: OutputCommandType.registerPrefixes,
       value: typeof prefix === 'string' ? [prefix] : prefix,
     };
 

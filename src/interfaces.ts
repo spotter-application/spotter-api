@@ -32,7 +32,7 @@ export enum OutputCommandType {
   setPluginInfo = 'setPluginInfo',
   setStorage = 'setStorage',
   registerOptions = 'registerOptions',
-  registerOnPrefix = 'registerOnPrefix',
+  registerPrefixes = 'registerPrefixes',
 }
 
 export interface PluginInfo {
@@ -90,6 +90,6 @@ export type OutputCommand = {
   type: OutputCommandType.registerOptions;
   value: Option[];
 } | {
-  type: OutputCommandType.registerOnPrefix;
+  type: OutputCommandType.registerPrefixes;
   value: string[];
 }
