@@ -28,6 +28,7 @@ export enum InputCommandType {
 export enum OutputCommandType {
   setOptions = 'setOptions',
   setQuery = 'setQuery',
+  setErrors = 'setErrors',
   setPluginInfo = 'setPluginInfo',
   setStorage = 'setStorage',
   registerOptions = 'registerOptions',
@@ -76,6 +77,9 @@ export type OutputCommand = {
 } | {
   type: OutputCommandType.setQuery;
   value: string;
+} | {
+  type: OutputCommandType.setErrors;
+  value: string[];
 } | {
   type: OutputCommandType.setPluginInfo;
   value: PluginInfo;
