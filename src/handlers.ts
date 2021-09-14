@@ -137,20 +137,20 @@ export const onPrefix = async (
     return;
   }
 
-  const matches: string | undefined = typeof prefix === 'string'
-    ? (prefix.startsWith(inputCommand.query) ? prefix : '')
+  const matchedPrefix: string | undefined = typeof prefix === 'string'
+    ? (prefix === inputCommand.prefix ? prefix : '')
     : prefix.find(p =>
-      inputCommand?.type === InputCommandType.onPrefix && p.startsWith(inputCommand.query)
+      inputCommand?.type === InputCommandType.onPrefix && p === inputCommand.prefix
     );
 
-  if (!matches?.length) {
+  if (!matchedPrefix?.length) {
     return;
   }
 
   const options: Option[] = await callback({
     ...inputCommand,
-    prefix: matches,
-    query: inputCommand.query.replace(matches, ''),
+    prefix: matchedPrefix,
+    query: inputCommand.query.replace(matchedPrefix, ''),
   });
 
   if (!options?.length) {
