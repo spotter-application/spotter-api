@@ -87,5 +87,5 @@ export type OutputCommand = {
   value: Option[];
 } | {
   type: OutputCommandType.registerOnPrefix;
-  value: string | string[];
+  value: string[];
 }

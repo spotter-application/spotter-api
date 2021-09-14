@@ -119,14 +119,14 @@ export const onPrefix = async (
   prefix: string | string[],
   callback: (command: InputCommand) => Promise<Option[]> | Option[],
 ) => {
-  if (!callback) {
+  if (!callback || !prefix?.length) {
     return;
   }
 
   if (inputCommand?.type === InputCommandType.checkForOnPrefixMethods) {
     const command: OutputCommand = {
       type: OutputCommandType.registerOnPrefix,
-      value: prefix,
+      value: typeof prefix === 'string' ? [prefix] : prefix,
     };
 
     print(command);
